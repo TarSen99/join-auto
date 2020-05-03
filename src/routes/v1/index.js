@@ -1,15 +1,19 @@
 var express = require('express');
-var router = express.Router();
-const Router = express.Router;
+var router = require('express-promise-router')();
 
 const authRouter = require('./auth_routes.js')
+const vehicleRouter = require('./vehicle_routes.js')
+const vehicleOrderRouter = require('./vehicle_order_routes.js')
+const userRouter = require('./user_routes.js')
 
 router.use(authRouter)
+router.use(vehicleRouter)
+router.use('/order', vehicleOrderRouter)
+router.use('/user', userRouter)
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.send('Hello world')
-  // res.render('index', { title: 'Express' });
-});
+router.all('*', (req, res) => {
+  return res.status(404).json({error: 'Page not found'})
+})
+
 
 module.exports = router;

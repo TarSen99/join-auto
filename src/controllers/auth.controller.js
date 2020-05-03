@@ -1,5 +1,8 @@
 const User = require('@/models/User')
+const ResetPassword = require('@/models/ResetPassword')
 const qs = require('qs')
+const yup = require('yup')
+const bcrypt = require('bcrypt')
 
 const getUserInfo = (user) => {
   const userParsed = qs.parse(user)
@@ -13,12 +16,38 @@ const getUserInfo = (user) => {
   return newObj
 }
 
+/**
+ * @api {post} /login Login
+ * @apiName Login
+ * @apiGroup Auth
+ * 
+ * @apiParam {String} email
+ * @apiParam {String} password
+ * @apiSuccessExample {json} Success-Response:
+ *  { "auth_token": "token_goes_here" }
+ *  Save this to local storage and add to each request as Authorization header
+ */
 const login = async (req, res) => {
   const { email, password } = req.body
-  
-  const user = await User.findOne({ email })  
-  const token = user.generateToken()
-  const userDetails = getUserInfo(user)
+    
+  const existingUser = await User.findOne({ email })
+
+  if (!existingUser) {
+    return res.status(400).json({
+      email: 'Check your credentials'
+    })
+  }
+
+  const passwordMatch = await bcrypt.compare(password, existingUser._doc.password);
+
+  if (!passwordMatch) {
+    return res.status(400).json({
+      email: 'Check your credentials'
+    })
+  }
+
+  const token = existingUser.generateToken()
+  const userDetails = getUserInfo(existingUser)
 
 
   return res.status(200).json({
@@ -27,15 +56,20 @@ const login = async (req, res) => {
   })
 }
 
-  // email: String,
-  // user_name: String,
-  // password: String,
-  // created_at: Date,
-  // updated_at: Date,
-  // phone_number: String,
-  // location: String,
-  // rating: Number,
-  // is_admin: Boolean 
+/**
+ * @api {post} /sign-up Register
+ * @apiName Register
+ * @apiGroup Auth
+ *
+ * @apiParam {String} email
+ * @apiParam {String} user_name
+ * @apiParam {String} password
+ * @apiParam {String} phone_number
+ * @apiParam {String} location
+ * @apiSuccessExample {json} Success-Response:
+ *  { "auth_token": "token_goes_here" }
+ *  Save this to local storage and add to each request as Authorization header
+ */
 
 const register = async (req, res) => {  
   const { email, user_name, password, phone_number, location} = req.body
@@ -46,7 +80,8 @@ const register = async (req, res) => {
       password,
       phone_number,
       location,
-      is_admin: false
+      is_admin: false,
+      shared_products: [],
   })
 
   const token = user.generateToken()
@@ -59,7 +94,88 @@ const register = async (req, res) => {
   })
 }
 
+/**
+ * @api {post} /forgot-password Forgot password
+ * @apiName Forgot password
+ * @apiGroup Auth
+ *
+ * @apiParam {String} email
+ * @apiSuccessExample {json} Success-Response:
+ *  { "token": "token_goes_here" }
+ *  Reset password token
+ */
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body
+
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    return res.status(400).json({
+      email: 'User doesn\'t exist'
+    })  
+  }
+
+  const userDetails = user._doc
+
+  const resetPasswordInstance = await ResetPassword.create({
+    email: userDetails.email,
+    created_at: new Date(),
+    token: user.generateForgotPasswordToken()
+  })
+
+  return res.status(200).json(resetPasswordInstance._doc)
+}
+
+/**
+ * @api {post} /reset-password Reset password
+ * @apiName Reset password
+ * @apiGroup Auth
+ *
+ * @apiParam {String} token
+ * @apiParam {String} password
+ */
+
+const resetPassword = async (req, res) => {
+  const { token, password } = req.body
+
+  const resetPasswordInstance = await ResetPassword.findOne({ token })
+
+  if (!resetPasswordInstance) {
+    return res.status(422).json({
+      password: 'token is invalid'
+    })
+  }
+
+  const { email, created_at } = resetPasswordInstance._doc
+  const now = new Date().getTime() 
+  const createdAtPlusDay = created_at.getTime() + (1 * 24 * 60 * 60 * 1000)
+
+  if (now > createdAtPlusDay) {
+    await resetPasswordInstance.deleteOne()
+
+    return res.status(422).json({
+      password: 'token is expired'
+    })
+  }
+  
+  const saltRounds = 10;
+  const salt = bcrypt.genSaltSync(saltRounds);
+
+  const user = await User.findOneAndUpdate({
+    email
+  }, {
+      password: bcrypt.hashSync(password, salt)
+  })
+
+  await resetPasswordInstance.deleteOne()
+
+  return res.status(200).json(user._doc)
+}
+
 module.exports = {
   login,
-  register
+  register,
+  forgotPassword,
+  resetPassword
 }

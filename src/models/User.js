@@ -16,7 +16,8 @@ const UserSchema = new MongooseSchema({
   rating: Number,
   is_admin: Boolean,
   email_code: String,
-  email_verified: false
+  email_verified: false,
+  shared_products: [{ type: Mongoose.Types.ObjectId, ref: 'Vehicle' }]
 })
 
 UserSchema.pre('save', function () {
@@ -31,6 +32,10 @@ UserSchema.pre('save', function () {
 
 UserSchema.methods.generateToken = function () {
   return jwt.sign({id: this._id}, config.JWT_KEY)
+}
+
+UserSchema.methods.generateForgotPasswordToken = function () {
+  return randomString.generate(72)
 }
 
 module.exports = Mongoose.model('User', UserSchema)
