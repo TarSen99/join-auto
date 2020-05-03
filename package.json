@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --exec babel-node -- ./bin/www",
-    "build": "nodemon --exec babel-node -- ./bin/www"
+    "build-test": "nodemon --exec babel-node -- ./bin/www",
+    "start": "node --exec babel-node -- ./bin/www"
   },
   "engines": {
     "node": "12.16.1"
