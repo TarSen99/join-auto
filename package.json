@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build-test": "nodemon --exec babel-node -- ./bin/www",
-    "start": "node --exec babel-node -- ./bin/www"
+    "start": "node babel-node ./bin/www"
   },
   "engines": {
     "node": "12.16.1"
