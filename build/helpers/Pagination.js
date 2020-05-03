@@ -1,22 +1,21 @@
 "use strict";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
 var Pagination = /*#__PURE__*/function () {
   function Pagination(perPage, currentPage, count) {
-    _classCallCheck(this, Pagination);
-
+    (0, _classCallCheck2["default"])(this, Pagination);
     this._perPage = perPage;
     this._currentPage = currentPage;
     this._totalPages = Math.max(Math.ceil(count / perPage), 1);
     this.count = count;
   }
 
-  _createClass(Pagination, [{
+  (0, _createClass2["default"])(Pagination, [{
     key: "getCurrentPage",
     value: function getCurrentPage() {
       return Math.min(this._currentPage, this._totalPages);
@@ -37,7 +36,6 @@ var Pagination = /*#__PURE__*/function () {
       return this._totalPages;
     }
   }]);
-
   return Pagination;
 }();
 
@@ -47,10 +45,10 @@ var MIN_PAGE_VALUE = 1;
 
 var PaginationWrapper = /*#__PURE__*/function () {
   function PaginationWrapper() {
-    _classCallCheck(this, PaginationWrapper);
+    (0, _classCallCheck2["default"])(this, PaginationWrapper);
   }
 
-  _createClass(PaginationWrapper, [{
+  (0, _createClass2["default"])(PaginationWrapper, [{
     key: "setPage",
     value: function setPage(page) {
       this.page = Math.max(MIN_PAGE_VALUE, +page || 0);
@@ -74,19 +72,17 @@ var PaginationWrapper = /*#__PURE__*/function () {
       return new Pagination(this.limit, this.page, this.count, this);
     }
   }]);
-
   return PaginationWrapper;
 }();
 
 var PaginationFormatter = /*#__PURE__*/function () {
   function PaginationFormatter(pagination) {
-    _classCallCheck(this, PaginationFormatter);
-
+    (0, _classCallCheck2["default"])(this, PaginationFormatter);
     this.pagination = pagination;
     return this.format();
   }
 
-  _createClass(PaginationFormatter, [{
+  (0, _createClass2["default"])(PaginationFormatter, [{
     key: "format",
     value: function format() {
       return {
@@ -97,7 +93,6 @@ var PaginationFormatter = /*#__PURE__*/function () {
       };
     }
   }]);
-
   return PaginationFormatter;
 }();
 

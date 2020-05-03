@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run clean && babel src --out-dir build",
     "clean": "rm -rf build && mkdir build",
-    "start": "npm run clean && npm run build && node ./build/bin/www",
+    "start": "npm run clean && npm run build && node ./build/www.js",
     "serve": "nodemon --exec babel-node -- ./src/www"
   },
   "engines": {

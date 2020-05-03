@@ -1,15 +1,14 @@
 "use strict";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
 var SortType = /*#__PURE__*/function () {
   function SortType(type, availableTypes, defaultType, order) {
-    _classCallCheck(this, SortType);
-
+    (0, _classCallCheck2["default"])(this, SortType);
     var newType;
     var newOrder = order > 0 ? 1 : -1;
 
@@ -23,7 +22,7 @@ var SortType = /*#__PURE__*/function () {
     this.order = newOrder;
   }
 
-  _createClass(SortType, [{
+  (0, _createClass2["default"])(SortType, [{
     key: "getFieldName",
     value: function getFieldName() {
       return this.type;
@@ -34,16 +33,15 @@ var SortType = /*#__PURE__*/function () {
       return this.order;
     }
   }]);
-
   return SortType;
 }();
 
 module.exports = /*#__PURE__*/function () {
   function SortWrapper() {
-    _classCallCheck(this, SortWrapper);
+    (0, _classCallCheck2["default"])(this, SortWrapper);
   }
 
-  _createClass(SortWrapper, [{
+  (0, _createClass2["default"])(SortWrapper, [{
     key: "setType",
     value: function setType(type) {
       this.type = type;
@@ -73,6 +71,5 @@ module.exports = /*#__PURE__*/function () {
       return new SortType(this.type, this.types, this["default"], this.order);
     }
   }]);
-
   return SortWrapper;
 }();
