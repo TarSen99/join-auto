@@ -6,7 +6,14 @@ var logger = require('morgan');
 const Mongoose = require('mongoose')
 const config = require('./config.js')
 
-Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology: true})
+Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+  console.log('connected success')
+  })
+  .catch(err => {
+    console.log('connection error')
+    console.log(err)
+})
 
 var indexRouter = require('./routes/index');
 var app = express();
