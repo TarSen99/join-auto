@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --exec babel-node -- ./bin/www"
+    "start": "node --exec babel-node -- ./bin/www",
+    "build": "nodemon --exec babel-node -- ./bin/www"
+  },
+  "engines": {
+    "node": "12.16.1"
   },
   "dependencies": {
     "babel-install": "^2.1.0",
