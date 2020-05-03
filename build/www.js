@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-"use strict";z
+"use strict";
 
 var app = require("./app");
 
