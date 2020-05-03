@@ -4,13 +4,13 @@
   "private": true,
   "main": "build/www.js",
   "scripts": {
-    "build": "npm run clean && babel src --out-dir build",
+    "rebuild": "npm run clean && babel src --out-dir build",
     "clean": "rm -rf build && mkdir build",
-    "start": "npm run clean && npm run build && node ./build/www.js",
+    "start": "npm run clean && npm run rebuild && node ./build/www.js",
     "serve": "nodemon --exec babel-node -- ./src/www"
   },
   "engines": {
-    "node": "12.16.1"
+    "node": "12.16.1" 
   },
   "dependencies": {
     "babel-install": "^2.1.0",
