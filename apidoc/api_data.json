@@ -959,5 +959,179 @@
     "version": "0.0.0",
     "filename": "src/controllers/vehicle/removeProductFromOwnList.js",
     "groupTitle": "Product"
+  },
+  {
+    "type": "get",
+    "url": "/user/my-profile",
+    "title": "ViewOwnProfile",
+    "name": "ViewOwnProfile",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/controllers/user/ViewOwnProfile.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "/user/:id",
+    "title": "ViewUserInfo",
+    "name": "ViewUserInfo",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "id",
+            "optional": false,
+            "field": "user_id",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/controllers/user/ViewUserInfo.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "/user/products/own",
+    "title": "ViewUserOwnProducts",
+    "name": "ViewUserOwnProducts",
+    "group": "User",
+    "description": "<p>Api only for private user profile view</p>",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/controllers/user/ViewUserOwnProducts.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "/user/products/:id",
+    "title": "ViewUserProducts",
+    "name": "ViewUserProducts",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "id",
+            "optional": false,
+            "field": "user_id",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/controllers/user/ViewUserProducts.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "/user/products/shared",
+    "title": "ViewUserSharedProducts",
+    "name": "ViewUserSharedProducts",
+    "group": "User",
+    "description": "<p>Api only for private user profile view</p>",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/controllers/user/ViewUserSharedProducts.js",
+    "groupTitle": "User"
+  },
+  {
+    "type": "put",
+    "url": "/user/update",
+    "title": "updateUserInfo",
+    "name": "updateUserInfo",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "user_name",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone_number",
+            "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "location",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/controllers/user/UserUpdateDetails.js",
+    "groupTitle": "User"
   }
 ]
