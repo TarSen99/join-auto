@@ -28,7 +28,7 @@ const handleBuyRequst = require('@/controllers/vehicle/handleBuyRequst.js')
 
 const postProduct = async (req, res) => {
   const {
-    id,
+    current_user_id,
     description,
     price,
     is_new,
@@ -44,7 +44,7 @@ const postProduct = async (req, res) => {
     color
   } = req.body
 
-  const userOwner = await User.findById(id)
+  const userOwner = await User.findById(current_user_id)
 
   if (!userOwner) {
     return res.status(404).json({
@@ -53,7 +53,7 @@ const postProduct = async (req, res) => {
   }
 
   const vehicle = await Vehicle.create({
-    user_owner: id,
+    user_owner: current_user_id,
     description,
     price,
     is_new,

@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const randomString = require('randomstring')
 const jwt = require('jsonwebtoken')
 const config = require('@/config')
+const md5 = require('md5')
 
 const UserSchema = new MongooseSchema({
   email: String,
@@ -17,7 +18,15 @@ const UserSchema = new MongooseSchema({
   is_admin: Boolean,
   email_code: String,
   email_verified: false,
-  shared_products: [{ type: Mongoose.Types.ObjectId, ref: 'Vehicle' }]
+  shared_products: [{ type: Mongoose.Types.ObjectId, ref: 'Vehicle' }],
+  referal_token: String,
+  views_history: [
+    {
+      product: { type: Mongoose.Types.ObjectId, ref: 'Vehicle' },
+      token: String,
+      created_at: Date
+    }
+  ]
 })
 
 UserSchema.pre('save', function () {
@@ -28,6 +37,7 @@ UserSchema.pre('save', function () {
   this.password = hashPassword
   this.email_code = randomString.generate(72)
   this.created_at = new Date()
+  this.referal_token = md5(this.email.toLowerCase())
 })
 
 UserSchema.methods.generateToken = function () {
