@@ -20,12 +20,12 @@ Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology
 var app = express();
 
 app.use(cors())
-app.options('*', function (req, res) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header('Access-Control-Allow-Methods', '*');
-  res.header("Access-Control-Allow-Headers", "*");
-  res.end();
-});
+// app.options('*', function (req, res) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header('Access-Control-Allow-Methods', '*');
+//   res.header("Access-Control-Allow-Headers", "*");
+//   res.end();
+// });
 
 app.all('*', function (req, res, next) {
   var origin = req.get('origin');
