@@ -1,37 +1,40 @@
-const AWS = require('aws-sdk')
+const aws = require('aws-sdk')
 const { IAM_ACCESS, IAM_SECRET, BUCKET_NAME } = require('@/config.js')
+const REGION = 'eu-central-1'
 
-class S3 {
+class AWS {
   constructor(access, secret, bucketName) {
     this.bucket = bucketName
+    aws.config.update({
+      accessKeyId: IAM_ACCESS,
+      secretAccessKey: IAM_SECRET,
+      region: REGION
+    })
 
     this.params = {
       Bucket: this.bucket,
       Key: Date.now().toString(), 
     };
 
-    this.s3 = new AWS.S3({
-      accessKeyId: IAM_ACCESS,
-      secretAccessKey: IAM_SECRET,
-    });
+    this.s3 = new aws.S3();
   }
 
-  upload(files) {
-    files.forEach(file => {
-      console.log(file)
-      const base64data = Buffer.from(file, "base64")
+  // upload(files) {
+  //   files.forEach(file => {
+  //     console.log(file)
+  //     const base64data = Buffer.from(file, "base64")
       
-      return
-      this.s3.upload({ ...this.params, Body: base64data}, function (err, data) {
-        if (err) {
-          throw err;
-        }
-        console.log(`File uploaded successfully. ${data.Location}`);
-      });
-    })
-  }
+  //     return
+  //     this.s3.upload({ ...this.params, Body: base64data}, function (err, data) {
+  //       if (err) {
+  //         throw err;
+  //       }
+  //       console.log(`File uploaded successfully. ${data.Location}`);
+  //     });
+  //   })
+  // }
 }
 
-const s3 = new S3(IAM_ACCESS, IAM_SECRET, BUCKET_NAME)
+const awsInst = new AWS(IAM_ACCESS, IAM_SECRET, BUCKET_NAME)
 
-module.exports = s3
+module.exports = awsInst

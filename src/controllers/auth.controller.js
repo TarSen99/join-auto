@@ -3,6 +3,7 @@ const ResetPassword = require('@/models/ResetPassword')
 const qs = require('qs')
 const yup = require('yup')
 const bcrypt = require('bcrypt')
+const yup = require('yup')
 
 const getUserInfo = (user) => {
   const userParsed = qs.parse(user)
@@ -33,9 +34,11 @@ const login = async (req, res) => {
   const existingUser = await User.findOne({ email })
 
   if (!existingUser) {
-    return res.status(400).json({
-      email: 'Check your credentials'
-    })
+    throw new yup.ValidationError(
+      'Check your credentials.',
+      req.body,
+      'email'
+    )
   }
 
   const passwordMatch = await bcrypt.compare(password, existingUser._doc.password);

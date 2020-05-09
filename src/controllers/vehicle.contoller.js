@@ -3,8 +3,8 @@ const Vehicle = require('@/models/Vehicle.js')
 const getProducts = require('@/controllers/vehicle/getProducts.js')
 const buyAuto = require('@/controllers/vehicle/buyAuto.js')
 const handleBuyRequst = require('@/controllers/vehicle/handleBuyRequst.js')
-const qs = require('qs')
-const s3 = require('@/services/aws.js')
+const sharp = require('sharp');
+
 /**
  * @api {post} /product/post postProduct
  * @apiName postProduct
@@ -25,13 +25,45 @@ const s3 = require('@/services/aws.js')
  * @apiParam {Number} transmittion
  * @apiParam {Number} wheel_drive
  * @apiParam {Number} color
+ * @apiParam {Array} Images
  */
 
-const postProduct = async (req, res) => {
-  const {
-    current_user_id,
-  } = req.body
+const aws = require('@/services/aws.js')
+const multer = require('multer')
+var multerS3 = require('multer-s3')
 
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+    cb(null, true)
+  } else {
+    cb(null, false)
+  }
+}
+
+var upload = multer({
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 1024 * 1024 * 5 //1024 bytes * 1024 kb * 5 we are allowing only 5 MB files
+  },
+  storage: multerS3({
+    s3: aws.s3,
+    bucket: aws.bucket,
+    cacheControl: 'max-age=31536000',
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: 'public-read',
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString() + file.originalname)
+    },
+  })
+})
+
+const uploadFile = upload.array('images', 10)
+
+const postProduct = async (req, res) => {
   const {
     description,
     price,
@@ -46,12 +78,18 @@ const postProduct = async (req, res) => {
     transmittion,
     wheel_drive,
     color,
-  } = req.fields
+    current_user_id,
+  } = req.body
 
-  const imgsData = qs.parse(req.files)
-  s3.upload(imgsData.images)
+  // const imgsData = qs.parse(req.files)
+  // s3.upload(imgsData.images)
   // const { images } = req.files
-  console.log(imgsData.images)
+  uploadFile(req, res, err => {
+    console.log(err)
+    // console.log(err)
+    // console.log(req.files)
+    // console.log(req.file)
+  })
 
   return res.status(200).json()
 

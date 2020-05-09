@@ -29,8 +29,13 @@
     "md5": "^2.2.1",
     "mongoose": "^5.9.7",
     "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "multer-imager": "^4.1.0",
+    "multer-s3": "^2.9.0",
+    "multer-s3-transform": "^2.3.2",
     "qs": "^6.9.3",
     "randomstring": "^1.1.5",
+    "sharp": "^0.25.2",
     "yup": "^0.28.3"
   },
   "devDependencies": {

@@ -16,6 +16,7 @@ const BuyAutoValidator = require('@/validators/Vehicle/BuyAuto.js')
 const HandleBuyRequestValidator = require('@/validators/Vehicle/HandleBuyRequest.js')
 const AddProductToOwnListValidator = require('@/validators/Vehicle/AddProductToOwnList.js')
 const RemoveProductFromOwnListValidator = require('@/validators/Vehicle/RemoveProductFromOwnList.js')
+
 //PostVehicleValidator
 vehicleRouter.post('/product/post', checkAuth, postProduct)
 vehicleRouter.get('/products/:id', checkAuth, GetVehicleValidator, addToViewsHistory, getProductDetails)
