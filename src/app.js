@@ -19,7 +19,7 @@ Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology
 
 var app = express();
 
-app.use(cors())
+// app.use(cors())
 // app.options('*', function (req, res) {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header('Access-Control-Allow-Methods', '*');
