@@ -69,12 +69,11 @@ module.exports = async (req, res, next) => {
       wheel_drive,
       color
     }, {
+        abortEarly: false
     })
 
     next()
   } catch (err) {
-    return res.status(422).json({
-      [err.path]: err.message
-    })
+    next({ ...err, yupError: true })
   }
 }

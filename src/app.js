@@ -60,12 +60,22 @@ app.use(function (err, req, res, next) {
     return next(err);
   }
 
-  console.log(err.stack)
+  if (!err.yupError) {
+    return res.status(err.status || 500).json({
+      stack: err.stack,
+      message: err.message
+    });
+  }
 
-  return res.status(err.status || 500).json({
-    stack: err.stack,
-    message: err.message
-  });
+
+  const errors = err.inner.map(item => {
+    return {
+      field: item.path,
+      error: item.errors[0]
+    }
+  })
+
+  return res.status(422).json(errors);
 });
 
 module.exports = app;

@@ -20,6 +20,7 @@ module.exports = async (req, res, next) => {
       phone_number,
       location
     }, {
+        abortEarly: false
     })
 
     const existingUser = await UserModel.findOne({ email })
@@ -34,8 +35,6 @@ module.exports = async (req, res, next) => {
 
     next()
   } catch (err) {
-    return res.status(422).json({
-      [err.path]: err.message
-    })
+    next({...err, yupError: true})
   }
 }
