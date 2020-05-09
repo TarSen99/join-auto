@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
     if (existingUser) {
       throw new yup.ValidationError(
         'This user already exist',
-        req.body,
+        { ...req.body, yupError: true },
         'email'
       )
     }

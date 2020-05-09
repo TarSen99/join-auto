@@ -3,7 +3,8 @@ const Vehicle = require('@/models/Vehicle.js')
 const getProducts = require('@/controllers/vehicle/getProducts.js')
 const buyAuto = require('@/controllers/vehicle/buyAuto.js')
 const handleBuyRequst = require('@/controllers/vehicle/handleBuyRequst.js')
-const sharp = require('sharp');
+const upload = require('src/helpers/uploadImages.js');
+const yup = require('yup')
 
 /**
  * @api {post} /product/post postProduct
@@ -28,39 +29,6 @@ const sharp = require('sharp');
  * @apiParam {Array} Images
  */
 
-const aws = require('@/services/aws.js')
-const multer = require('multer')
-var multerS3 = require('multer-s3')
-
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
-    cb(null, true)
-  } else {
-    cb(null, false)
-  }
-}
-
-var upload = multer({
-  fileFilter: fileFilter,
-  limits: {
-    fileSize: 1024 * 1024 * 5 //1024 bytes * 1024 kb * 5 we are allowing only 5 MB files
-  },
-  storage: multerS3({
-    s3: aws.s3,
-    bucket: aws.bucket,
-    cacheControl: 'max-age=31536000',
-    metadata: function (req, file, cb) {
-      cb(null, { fieldName: file.fieldname });
-    },
-
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    acl: 'public-read',
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString() + file.originalname)
-    },
-  })
-})
-
 const uploadFile = upload.array('images', 10)
 
 const postProduct = async (req, res) => {
@@ -81,18 +49,6 @@ const postProduct = async (req, res) => {
     current_user_id,
   } = req.body
 
-  // const imgsData = qs.parse(req.files)
-  // s3.upload(imgsData.images)
-  // const { images } = req.files
-  uploadFile(req, res, err => {
-    console.log(err)
-    // console.log(err)
-    // console.log(req.files)
-    // console.log(req.file)
-  })
-
-  return res.status(200).json()
-
   const userOwner = await User.findById(current_user_id)
 
   if (!userOwner) {
@@ -100,6 +56,24 @@ const postProduct = async (req, res) => {
       'email': 'User not found'
     })
   }
+
+  const uploadPromise = new Promise((resolve, rej) => {
+    uploadFile(req, res, err => {
+      if (err) {
+        return res.status(422).json([
+          {
+            field: 'images',
+            error: err.message
+            }
+          ])
+      }
+
+      const images = req.files.map(image => image.location)
+      resolve(images)
+    })
+  })
+
+  const images = await uploadPromise
 
   const vehicle = await Vehicle.create({
     user_owner: current_user_id,
@@ -118,6 +92,7 @@ const postProduct = async (req, res) => {
     wheel_drive,
     color,
     created_at: new Date(),
+    images
   })
 
   return res.status(200).json(vehicle)

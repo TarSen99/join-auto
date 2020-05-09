@@ -17,8 +17,7 @@ const HandleBuyRequestValidator = require('@/validators/Vehicle/HandleBuyRequest
 const AddProductToOwnListValidator = require('@/validators/Vehicle/AddProductToOwnList.js')
 const RemoveProductFromOwnListValidator = require('@/validators/Vehicle/RemoveProductFromOwnList.js')
 
-//PostVehicleValidator
-vehicleRouter.post('/product/post', checkAuth, postProduct)
+vehicleRouter.post('/product/post', checkAuth, PostVehicleValidator, postProduct)
 vehicleRouter.get('/products/:id', checkAuth, GetVehicleValidator, addToViewsHistory, getProductDetails)
 vehicleRouter.get('/products', GetVehicleListValidator, getProducts)
 vehicleRouter.post('/product/buy', checkAuth, BuyAutoValidator, buyAuto)
