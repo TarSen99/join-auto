@@ -48,6 +48,12 @@ app.use(formidableMiddleware({
 }));
 app.use('/', indexRouter);
 
+app.all('*', function (req, res, next) {
+  return res.status(404).json({
+    error: 'Not found'
+  })
+});
+
 app.use(function (err, req, res, next) {
   if (res.headersSent) {
     return next(err);
