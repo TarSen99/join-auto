@@ -3,7 +3,6 @@ const ResetPassword = require('@/models/ResetPassword')
 const qs = require('qs')
 const yup = require('yup')
 const bcrypt = require('bcrypt')
-const yup = require('yup')
 
 const getUserInfo = (user) => {
   const userParsed = qs.parse(user)
