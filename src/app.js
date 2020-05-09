@@ -34,6 +34,11 @@ app.use('*', function (req, res, next) {
   next();
 });
 
+app.use('*', function (req, res, next) {
+  return res.status(404).json({
+    error: 'Not found'
+  })
+});
 var indexRouter = require('./routes/index');
 
 app.use(logger('dev'));
@@ -45,11 +50,7 @@ app.use(formidableMiddleware({
   multiples: true, // req.files to be arrays of files
 }));
 
-app.use('*', function (req, res, next) {
-  return res.status(404).json({
-    error: 'Not found'
-  })
-});
+
 
 app.use('/', indexRouter);
 
