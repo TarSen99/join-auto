@@ -34,11 +34,6 @@ app.use('*', function (req, res, next) {
   next();
 });
 
-app.use('*', function (req, res, next) {
-  return res.status(404).json({
-    error: 'Not found'
-  })
-});
 var indexRouter = require('./routes/index');
 
 app.use(logger('dev'));
@@ -55,7 +50,11 @@ console.log('here')
 
 app.use('/', indexRouter);
 
-
+app.use('*', function (req, res, next) {
+  return res.status(404).json({
+    error: 'Not found'
+  })
+});
 
 app.use(function (err, req, res, next) {
   if (res.headersSent) {
