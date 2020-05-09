@@ -17,7 +17,6 @@ Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology
     console.log(err)
 })
 
-var indexRouter = require('./routes/index');
 var app = express();
 
 
@@ -29,12 +28,15 @@ app.options('*', function (req, res) {
   res.end();
 });
 app.all('*', function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  var origin = req.get('origin');
+  res.header('Access-Control-Allow-Origin', origin);
   res.header('Access-Control-Allow-Methods', '*');
   res.header("Access-Control-Allow-Credentials", true);
   res.header('Access-Control-Allow-Headers', '*');
   next();
 });
+
+var indexRouter = require('./routes/index');
 
 app.use(logger('dev'));
 app.use(express.json());
