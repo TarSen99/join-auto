@@ -49,6 +49,7 @@ app.use(formidableMiddleware({
   encoding: 'utf-8',
   multiples: true, // req.files to be arrays of files
 }));
+console.log('here')
 
 
 
