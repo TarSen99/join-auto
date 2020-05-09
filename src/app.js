@@ -62,7 +62,7 @@ app.use(function (err, req, res, next) {
 
   console.log(err)
 
-  if (!err.yupError) {
+  if (!err.yupError && !(err.value && err.value.yupError)) {
     return res.status(err.status || 500).json({
       stack: err.stack,
       message: err.message
