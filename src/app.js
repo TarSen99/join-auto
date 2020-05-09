@@ -46,13 +46,15 @@ app.use(formidableMiddleware({
   encoding: 'utf-8',
   multiples: true, // req.files to be arrays of files
 }));
-app.use('/', indexRouter);
-
 app.all('*', function (req, res, next) {
   return res.status(404).json({
     error: 'Not found'
   })
 });
+
+app.use('/', indexRouter);
+
+
 
 app.use(function (err, req, res, next) {
   if (res.headersSent) {
