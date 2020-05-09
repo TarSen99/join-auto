@@ -44,9 +44,11 @@ const login = async (req, res) => {
   const passwordMatch = await bcrypt.compare(password, existingUser._doc.password);
 
   if (!passwordMatch) {
-    return res.status(400).json({
-      email: 'Check your credentials'
-    })
+    throw new yup.ValidationError(
+      'Check your credentials.',
+      req.body,
+      'email'
+    )
   }
 
   const token = existingUser.generateToken()
