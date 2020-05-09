@@ -60,6 +60,8 @@ app.use(function (err, req, res, next) {
     return next(err);
   }
 
+  console.log(err)
+
   if (!err.yupError) {
     return res.status(err.status || 500).json({
       stack: err.stack,
@@ -67,6 +69,14 @@ app.use(function (err, req, res, next) {
     });
   }
 
+  if (!err.inner.length) {
+    return res.status(422).json([
+      {
+        field: err.path,
+        error: err.errors[0]
+      }
+    ]);
+  }
 
   const errors = err.inner.map(item => {
     return {
