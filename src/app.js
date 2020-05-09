@@ -28,10 +28,8 @@ var app = express();
 // });
 
 app.all('*', function (req, res, next) {
-  var origin = req.get('origin');
-  res.header('Access-Control-Allow-Origin', origin);
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', '*');
-  res.header("Access-Control-Allow-Credentials", true);
   res.header('Access-Control-Allow-Headers', '*');
   next();
 });
@@ -46,7 +44,8 @@ app.use(formidableMiddleware({
   encoding: 'utf-8',
   multiples: true, // req.files to be arrays of files
 }));
-app.all('*', function (req, res, next) {
+
+app.use('*', function (req, res, next) {
   return res.status(404).json({
     error: 'Not found'
   })
