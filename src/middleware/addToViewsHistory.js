@@ -1,7 +1,6 @@
-const jwt = require('jsonwebtoken')
-const config = require('@/config')
 const User = require('@/models/User.js')
 var Mongoose = require('mongoose');
+const Vehicle = require('@/models/Vehicle.js')
 
 const MAX_HISTORY_LENGTH = 50
 
@@ -10,30 +9,43 @@ module.exports = async (req, res, next) => {
     current_user_id 
   } = req.body
   const { id : product_id} = req.params
-  const {q = null} = req.query
+  const { q = null } = req.query
+  
+  const vehicle = await Vehicle.findById(product_id)
+
+  if (!vehicle) {
+    return res.status(404).json({
+      id: 'Product not found'
+    })
+  }
+
+  req.body.vehicle = vehicle
+
   const user = await User.findById(current_user_id)
 
   if (!user) {
-    return res.status(403).json({
-      error: 'Unexpected error'
-    })
+   next()
   }
 
   if (!q) {
     next()
+
+    return
   }
   
   const productAlreadyInHistory = user.views_history.find(product => {
-    product.id === Mongoose.Types.ObjectId(product_id)
+    return product.product_id && product.product_id.equals(product_id)
   })
 
   if (productAlreadyInHistory) {
     next()
+
+    return
   }
 
   if (user.views_history.length < MAX_HISTORY_LENGTH) {
     user.views_history.push({
-      product: Mongoose.Types.ObjectId(product_id),
+      product_id: Mongoose.Types.ObjectId(product_id),
       token: q,
       created_at: new Date()
     })
@@ -41,18 +53,24 @@ module.exports = async (req, res, next) => {
     await user.save()
 
     next()
+
+    return
   }
 
-  const sortedViews = await User.aggregate([
-    {
-      $match: { _id: Mongoose.Types.ObjectId(current_user_id)}
-    },
-    {
-      $sort: { 'views_history.created_at': 1}
-    }
-  ])
+  await sortedViewsByDate.splice(0, 1, {
+    product_id: Mongoose.Types.ObjectId(product_id),
+    token: q,
+    created_at: new Date()
+  })
 
-  return res.status(200).json(sortedViews)
+  user.views_history.shift()
+  user.views_history.push({
+    product_id: Mongoose.Types.ObjectId(product_id),
+    token: q,
+    created_at: new Date()
+  })
+
+  user.save()
 
   next()
 }

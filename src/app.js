@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const Mongoose = require('mongoose')
 const config = require('./config.js')
+const formidableMiddleware = require('express-formidable');
+var cors = require('cors')
 
 Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -18,12 +20,21 @@ Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology
 var indexRouter = require('./routes/index');
 var app = express();
 
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions))
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(formidableMiddleware({
+  encoding: 'utf-8',
+  multiples: true, // req.files to be arrays of files
+}));
 app.use('/', indexRouter);
 
 app.use(function (err, req, res, next) {

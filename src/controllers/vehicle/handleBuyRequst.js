@@ -1,5 +1,28 @@
 const Vehicle = require('@/models/Vehicle.js')
+const User = require('@/models/User.js')
 const { USER_BASE_INFO_FIELDS } = require('@/constants.js')
+
+const handleCompensation = async (vehicle, requestToAccept, customer) => {
+  if (!vehicle.promote_compensation) {
+    return
+  }
+
+  const productIsPromoted = customer.views_history.find(product => product.product_id === vehicle._id)
+
+  if (!productIsPromoted) {
+    return
+  }
+
+  const IsSoldWithUser = await User.findOne({ referal_token: productIsPromoted.token })
+
+  if (!BoughtWithUser) {
+    return
+  }
+
+  vehicle.is_sold_with_user_id = IsSoldWithUser._id
+
+  await vehicle.save()
+}
 
 const handleBuyRequst = async (req, res) => {
 
@@ -54,8 +77,12 @@ const handleBuyRequst = async (req, res) => {
   requestToAccept.approved = request_value
 
   if (request_value) {
+    const customer = await User.findById({ _id: requestToAccept.user_id })
     requestToAccept.approved_at = new Date()
     requestToAccept.declined_at = null
+    vehicle.is_sold = true
+    vehicle.is_sold_to = customer._id
+    await handleCompensation(vehicle, requestToAccept, customer)
   } else {
     requestToAccept.declined_at = new Date()
     requestToAccept.approved_at = null

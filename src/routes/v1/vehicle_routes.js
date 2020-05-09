@@ -1,5 +1,6 @@
 const Router = require('express-promise-router')
 const checkAuth = require('@/middleware/checkAuth.js')
+const addToViewsHistory = require('@/middleware/addToViewsHistory.js')
 const vehicleRouter = new Router()
 
 const { postProduct, getProductDetails, getProducts, buyAuto, handleBuyRequst } = require('@/controllers/vehicle.contoller.js')
@@ -15,9 +16,9 @@ const BuyAutoValidator = require('@/validators/Vehicle/BuyAuto.js')
 const HandleBuyRequestValidator = require('@/validators/Vehicle/HandleBuyRequest.js')
 const AddProductToOwnListValidator = require('@/validators/Vehicle/AddProductToOwnList.js')
 const RemoveProductFromOwnListValidator = require('@/validators/Vehicle/RemoveProductFromOwnList.js')
-
-vehicleRouter.post('/product/post', checkAuth, PostVehicleValidator, postProduct)
-vehicleRouter.get('/products/:id', GetVehicleValidator, getProductDetails)
+//PostVehicleValidator
+vehicleRouter.post('/product/post', checkAuth, postProduct)
+vehicleRouter.get('/products/:id', checkAuth, GetVehicleValidator, addToViewsHistory, getProductDetails)
 vehicleRouter.get('/products', GetVehicleListValidator, getProducts)
 vehicleRouter.post('/product/buy', checkAuth, BuyAutoValidator, buyAuto)
 vehicleRouter.post('/product/approve', checkAuth, HandleBuyRequestValidator, approveBuyRequest, handleBuyRequst)

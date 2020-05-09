@@ -3,7 +3,8 @@ const Vehicle = require('@/models/Vehicle.js')
 const getProducts = require('@/controllers/vehicle/getProducts.js')
 const buyAuto = require('@/controllers/vehicle/buyAuto.js')
 const handleBuyRequst = require('@/controllers/vehicle/handleBuyRequst.js')
-
+const qs = require('qs')
+const s3 = require('@/services/aws.js')
 /**
  * @api {post} /product/post postProduct
  * @apiName postProduct
@@ -29,6 +30,9 @@ const handleBuyRequst = require('@/controllers/vehicle/handleBuyRequst.js')
 const postProduct = async (req, res) => {
   const {
     current_user_id,
+  } = req.body
+
+  const {
     description,
     price,
     is_new,
@@ -41,8 +45,15 @@ const postProduct = async (req, res) => {
     engine,
     transmittion,
     wheel_drive,
-    color
-  } = req.body
+    color,
+  } = req.fields
+
+  const imgsData = qs.parse(req.files)
+  s3.upload(imgsData.images)
+  // const { images } = req.files
+  console.log(imgsData.images)
+
+  return res.status(200).json()
 
   const userOwner = await User.findById(current_user_id)
 
@@ -84,15 +95,7 @@ const postProduct = async (req, res) => {
  */
 
 const getProductDetails = async (req, res) => {
-  const { id } = req.params
-
-  const vehicle = await Vehicle.findById(id)
-
-  if (!vehicle) {
-    return res.status(404).json({
-      id: 'Product not found'
-    })
-  }
+  const { vehicle } = req.body
 
   return res.status(200).json(vehicle)
 }

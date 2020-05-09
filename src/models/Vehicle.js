@@ -13,6 +13,7 @@ const VehicleSchema = new MongooseSchema({
   promote_compensation: Number,
   promote_compensation_type: Number,
   is_sold: Boolean,
+  is_sold_to: { type: Mongoose.Types.ObjectId, ref: 'User' },
   is_sold_with_user_id: { type: Mongoose.Types.ObjectId, ref: 'User' },
   body_type: Number,
   mileage: Number,
@@ -21,6 +22,7 @@ const VehicleSchema = new MongooseSchema({
   wheel_drive: Number,
   color: String,
   created_at: Date,
+  images: [String],
   buy_requests: [
     {
       user_id: { type: Mongoose.Types.ObjectId, ref: 'User' },

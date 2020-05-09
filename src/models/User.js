@@ -14,6 +14,13 @@ const UserSchema = new MongooseSchema({
   updated_at: Date,
   phone_number: String,
   location: String,
+  rate_array: [
+    {
+      from_user: { type: Mongoose.Types.ObjectId, ref: 'Vehicle' },
+      created_at: Date,
+      value: Number
+    }
+  ],
   rating: Number,
   is_admin: Boolean,
   email_code: String,
@@ -22,7 +29,7 @@ const UserSchema = new MongooseSchema({
   referal_token: String,
   views_history: [
     {
-      product: { type: Mongoose.Types.ObjectId, ref: 'Vehicle' },
+      product_id: { type: Mongoose.Types.ObjectId, ref: 'Vehicle' },
       token: String,
       created_at: Date
     }

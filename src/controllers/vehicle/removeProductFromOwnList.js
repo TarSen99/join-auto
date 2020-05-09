@@ -32,7 +32,9 @@ const removeProductToOwnList = async (req, res) => {
   }
 
   if (product.user_owner._id.equals(current_user_id)) {
-    await product.delete()
+    if (!product.is_sold) {
+      await product.delete()
+    }
 
     return res.status(200).json()
   }
