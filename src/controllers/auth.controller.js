@@ -38,8 +38,6 @@ const login = async (req, res) => {
       { ...req.body, yupError: true },
       'email'
     )
-
-    return
   }
   const passwordMatch = await bcrypt.compare(password, existingUser._doc.password);
 
@@ -49,8 +47,6 @@ const login = async (req, res) => {
       { ...req.body, yupError: true},
       'email'
     )
-
-    return
   }
 
   const token = existingUser.generateToken()
@@ -78,6 +74,10 @@ const login = async (req, res) => {
  *  Save this to local storage and add to each request as Authorization header
  */
 
+const sendResetEmail = () => {
+
+}
+
 const register = async (req, res) => {  
   const { email, user_name, password, phone_number, location} = req.body
 
@@ -94,6 +94,7 @@ const register = async (req, res) => {
   const token = user.generateToken()
 
   const userDetails = getUserInfo(user)
+  
   
   return res.status(201).json({
     ...userDetails,
@@ -130,6 +131,8 @@ const forgotPassword = async (req, res) => {
     created_at: new Date(),
     token: user.generateForgotPasswordToken()
   })
+
+  sendResetEmail(resetPasswordInstance)
 
   return res.status(200).json(resetPasswordInstance._doc)
 }

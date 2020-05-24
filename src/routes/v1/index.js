@@ -11,9 +11,4 @@ router.use(vehicleRouter)
 router.use('/order', vehicleOrderRouter)
 router.use('/user', userRouter)
 
-router.all('*', (req, res) => {
-  return res.status(404).json({error: 'Page not found'})
-})
-
-
 module.exports = router;

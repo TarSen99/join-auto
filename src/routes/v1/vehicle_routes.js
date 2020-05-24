@@ -1,9 +1,15 @@
 const Router = require('express-promise-router')
-const checkAuth = require('@/middleware/checkAuth.js')
-const addToViewsHistory = require('@/middleware/addToViewsHistory.js')
 const vehicleRouter = new Router()
 
-const { postProduct, getProductDetails, getProducts, buyAuto, handleBuyRequst } = require('@/controllers/vehicle.contoller.js')
+const { postProduct,
+  getProductDetails,
+  getProducts, buyAuto,
+  handleBuyRequst
+} = require('@/controllers/vehicle.contoller.js')
+
+const checkAuth = require('@/middleware/checkAuth.js')
+const addToViewsHistory = require('@/middleware/addToViewsHistory.js')
+
 const approveBuyRequest = require('@/controllers/vehicle/approveBuyRequest.js')
 const declineBuyRequest = require('@/controllers/vehicle/declineBuyRequest.js')
 const addProductToOwnList = require('@/controllers/vehicle/addProductToOwnList.js')

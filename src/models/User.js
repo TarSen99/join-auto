@@ -36,6 +36,10 @@ const UserSchema = new MongooseSchema({
   ]
 })
 
+const sendVerificationEmail = () => {
+
+}
+
 UserSchema.pre('save', function () {
   const saltRounds = 10;
   const salt = bcrypt.genSaltSync(saltRounds);
@@ -45,6 +49,8 @@ UserSchema.pre('save', function () {
   this.email_code = randomString.generate(72)
   this.created_at = new Date()
   this.referal_token = md5(this.email.toLowerCase())
+
+  sendVerificationEmail(this)
 })
 
 UserSchema.methods.generateToken = function () {

@@ -6,7 +6,6 @@ var logger = require('morgan');
 const Mongoose = require('mongoose')
 const config = require('./config.js')
 const formidableMiddleware = require('express-formidable');
-var cors = require('cors')
 
 Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -19,7 +18,6 @@ Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology
 
 var app = express();
 
-// app.use(cors())
 app.options('*', function (req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', '*');
@@ -59,8 +57,6 @@ app.use(function (err, req, res, next) {
   if (res.headersSent) {
     return next(err);
   }
-
-  console.log(err)
 
   if (!err.yupError && !(err.value && err.value.yupError)) {
     return res.status(err.status || 500).json({

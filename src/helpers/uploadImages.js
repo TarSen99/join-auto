@@ -3,7 +3,9 @@ const multer = require('multer')
 var multerS3 = require('multer-s3')
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+  if (file.mimetype === 'image/jpeg'
+    || file.mimetype === 'image/png'
+    || file.mimetype === 'image/jpg') {
     cb(null, true)
   } else {
     cb(null, false)
