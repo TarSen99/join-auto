@@ -915,6 +915,13 @@ define({ "api": [
             "optional": false,
             "field": "color",
             "description": ""
+          },
+          {
+            "group": "Parameter",
+            "type": "Array",
+            "optional": false,
+            "field": "Images",
+            "description": ""
           }
         ]
       }
@@ -959,6 +966,42 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "src/controllers/vehicle/removeProductFromOwnList.js",
     "groupTitle": "Product"
+  },
+  {
+    "type": "post",
+    "url": "/user/rate",
+    "title": "RateUser",
+    "name": "RateUser",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "rate",
+            "description": "<p>1-5</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "src/controllers/user/RateUser.js",
+    "groupTitle": "User"
   },
   {
     "type": "get",
