@@ -10,23 +10,32 @@
     "serve": "nodemon --exec babel-node -- ./src/www"
   },
   "engines": {
-    "node": "12.16.1" 
+    "node": "12.16.1"
   },
   "dependencies": {
+    "aws-sdk": "^2.673.0",
     "babel-install": "^2.1.0",
     "bcrypt": "^4.0.1",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "express-formidable": "^1.2.0",
     "express-promise-router": "^3.0.3",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
+    "md5": "^2.2.1",
     "mongoose": "^5.9.7",
     "morgan": "~1.9.1",
+    "multer": "^1.4.2",
+    "multer-imager": "^4.1.0",
+    "multer-s3": "^2.9.0",
+    "multer-s3-transform": "^2.3.2",
     "qs": "^6.9.3",
     "randomstring": "^1.1.5",
+    "sharp": "^0.25.2",
     "yup": "^0.28.3"
   },
   "devDependencies": {

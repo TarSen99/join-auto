@@ -14,12 +14,11 @@ module.exports = async (req, res, next) => {
       product_id,
       request_id
     }, {
+        abortEarly: false
     })
 
     next()
   } catch (err) {
-    return res.status(422).json({
-      [err.path]: err.message
-    })
+    next({ ...err, yupError: true })
   }
 }

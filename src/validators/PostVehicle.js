@@ -2,7 +2,6 @@ const yup = require('yup')
 const Mongoose = require('mongoose')
 
 const RegisterSchema = yup.object().shape({
-  user_owner_id: yup.string().required(),
   description: yup.string().required(),
   price: yup.number().required(),
   vehicle_type: yup.number().required(),
@@ -35,7 +34,6 @@ const RegisterSchema = yup.object().shape({
 
 module.exports = async (req, res, next) => {
   const { 
-    id,
     description,
     price,
     is_new,
@@ -53,16 +51,8 @@ module.exports = async (req, res, next) => {
     color
   } = req.body
 
-  if (!Mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({
-      'email': 'User not found'
-    })
-  }
-
-
   try {
     await RegisterSchema.validate({
-      user_owner_id: id,
       description,
       price,
       is_new,
@@ -79,12 +69,11 @@ module.exports = async (req, res, next) => {
       wheel_drive,
       color
     }, {
+        abortEarly: false
     })
 
     next()
   } catch (err) {
-    return res.status(422).json({
-      [err.path]: err.message
-    })
+    next({ ...err, yupError: true })
   }
 }

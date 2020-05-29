@@ -15,6 +15,7 @@ module.exports = async (req, res, next) => {
       await BuyAutoSchema.validate({
         id
       }, {
+          abortEarly: false
     })
 
     if (!Mongoose.Types.ObjectId.isValid(id)) {
@@ -25,8 +26,6 @@ module.exports = async (req, res, next) => {
 
     next()
   } catch (err) {
-    return res.status(422).json({
-      [err.path]: err.message
-    })
+      next({ ...err, yupError: true })
   }
 }
