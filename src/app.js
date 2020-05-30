@@ -6,6 +6,8 @@ var logger = require('morgan');
 const Mongoose = require('mongoose')
 const config = require('./config.js')
 const formidableMiddleware = require('express-formidable');
+var multer = require('multer');
+var upload = multer();
 
 Mongoose.connect(config.BD_BASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -37,6 +39,7 @@ var indexRouter = require('./routes/index');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(upload.array()); 
 app.use(cookieParser());
 // app.use(formidableMiddleware({
 //   encoding: 'utf-8',
