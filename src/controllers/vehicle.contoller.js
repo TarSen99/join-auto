@@ -70,7 +70,7 @@ const postProduct = async (req, res) => {
           ])
       }
 
-      const images = req.files.map(image => image.location)
+      const images = (req.files || []).map(image => image.location)
       resolve(images)
     })
   })
