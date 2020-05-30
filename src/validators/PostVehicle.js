@@ -4,7 +4,7 @@ const Mongoose = require('mongoose')
 const RegisterSchema = yup.object().shape({
   description: yup.string().required(),
   price: yup.number().required(),
-  vehicle_type: yup.number().required(),
+  vehicle_type: yup.number(),
   available_for_promote: yup.boolean().default(false),
   promote_compensation: yup.number()
     .when('$available_for_promote', {
