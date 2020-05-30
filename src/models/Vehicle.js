@@ -22,6 +22,8 @@ const VehicleSchema = new MongooseSchema({
   wheel_drive: Number,
   color: String,
   created_at: Date,
+  brand: String,
+  model: String,
   images: [String],
   buy_requests: [
     {

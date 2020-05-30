@@ -47,6 +47,8 @@ const postProduct = async (req, res) => {
     wheel_drive,
     color,
     current_user_id,
+    brand,
+    model
   } = req.body
 
   const userOwner = await User.findById(current_user_id)
@@ -92,7 +94,9 @@ const postProduct = async (req, res) => {
     wheel_drive,
     color,
     created_at: new Date(),
-    images
+    images,
+    brand,
+    model
   })
 
   return res.status(200).json(vehicle)

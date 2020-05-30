@@ -30,6 +30,8 @@ const RegisterSchema = yup.object().shape({
   transmittion: yup.number().required(),
   wheel_drive: yup.number().required(),
   color: yup.string().required(),
+  brand: yup.string().required(),
+  model: yup.string().required(),
 })
 
 module.exports = async (req, res, next) => {
@@ -48,7 +50,9 @@ module.exports = async (req, res, next) => {
     engine,
     transmittion,
     wheel_drive,
-    color
+    color,
+    brand,
+    model
   } = req.body
 
   try {
@@ -67,7 +71,9 @@ module.exports = async (req, res, next) => {
       engine,
       transmittion,
       wheel_drive,
-      color
+      color,
+      brand,
+      model
     }, {
         abortEarly: false
     })
