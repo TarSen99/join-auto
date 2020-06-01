@@ -97,7 +97,8 @@ const postProduct = async (req, res) => {
     created_at: new Date(),
     images,
     brand,
-    model
+    model,
+    year
   })
 
   return res.status(200).json(vehicle)
