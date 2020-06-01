@@ -22,8 +22,11 @@ const BuyAutoValidator = require('@/validators/Vehicle/BuyAuto.js')
 const HandleBuyRequestValidator = require('@/validators/Vehicle/HandleBuyRequest.js')
 const AddProductToOwnListValidator = require('@/validators/Vehicle/AddProductToOwnList.js')
 const RemoveProductFromOwnListValidator = require('@/validators/Vehicle/RemoveProductFromOwnList.js')
+const upload = require('src/helpers/uploadImages.js');
 
-vehicleRouter.post('/product/post', checkAuth, PostVehicleValidator, postProduct)
+const uploadFile = upload.array('images', 10)
+//PostVehicleValidator
+vehicleRouter.post('/product/post', checkAuth, uploadFile, PostVehicleValidator, postProduct)
 vehicleRouter.get('/products/:id', checkAuth, GetVehicleValidator, addToViewsHistory, getProductDetails)
 vehicleRouter.get('/products', GetVehicleListValidator, getProducts)
 vehicleRouter.post('/product/buy', checkAuth, BuyAutoValidator, buyAuto)

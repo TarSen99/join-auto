@@ -60,23 +60,23 @@ const postProduct = async (req, res) => {
     })
   }
 
-  const uploadPromise = new Promise((resolve, rej) => {
-    uploadFile(req, res, err => {
-      if (err) {
-        return res.status(422).json([
-          {
-            field: 'images',
-            error: err.message
-            }
-          ])
-      }
+  const images = (req.files || []).map(image => image.location)
 
-      const images = (req.files || []).map(image => image.location)
-      resolve(images)
-    })
-  })
+  // const uploadPromise = new Promise((resolve, rej) => {
+  //   uploadFile(req, res, err => {
+  //     if (err) {
+  //       return res.status(422).json([
+  //         {
+  //           field: 'images',
+  //           error: err.message
+  //           }
+  //         ])
+  //     }
 
-  const images = await uploadPromise
+  //     const images = (req.files || []).map(image => image.location)
+  //     resolve(images)
+  //   })
+  // })
 
   const vehicle = await Vehicle.create({
     user_owner: current_user_id,
