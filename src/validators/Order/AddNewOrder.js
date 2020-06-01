@@ -7,7 +7,6 @@ const RegisterSchema = yup.object().shape({
   description: yup.string().required(),
   price_from: yup.number().required(),
   price_to: yup.number().default(MAX_PRICE_VALUE),
-  vehicle_type: yup.number().required(),
   is_new: yup.boolean().required(),
   body_type: yup.number(),
   mileage: yup.number()
@@ -29,7 +28,6 @@ module.exports = async (req, res, next) => {
     price_from,
     price_to,
     is_new,
-    vehicle_type,
     body_type,
     mileage,
     engine,
@@ -45,7 +43,6 @@ module.exports = async (req, res, next) => {
       price_from,
       price_to,
       is_new,
-      vehicle_type,
       body_type,
       mileage,
       engine,

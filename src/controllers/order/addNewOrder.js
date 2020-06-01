@@ -51,7 +51,6 @@ const addNewOrder = async (req, res) => {
     price_from,
     price_to,
     is_new,
-    vehicle_type,
     body_type,
     mileage,
     engine,

@@ -9,6 +9,7 @@ const VehicleSchema = new MongooseSchema({
   price: Number,
   is_new: Boolean,
   vehicle_type: Number,
+  year: Number,
   available_for_promote: Boolean,
   promote_compensation: Number,
   promote_compensation_type: Number,
@@ -28,6 +29,7 @@ const VehicleSchema = new MongooseSchema({
   buy_requests: [
     {
       user_id: { type: Mongoose.Types.ObjectId, ref: 'User' },
+      user_name: String,
       comment: String,
       price: Number,
       approved: Boolean,

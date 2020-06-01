@@ -48,7 +48,8 @@ const postProduct = async (req, res) => {
     color,
     current_user_id,
     brand,
-    model
+    model,
+    year
   } = req.body
 
   const userOwner = await User.findById(current_user_id)

@@ -23,7 +23,6 @@ const buyAuto = async (req, res) => {
   } = req.body
   product_id = product_id.trim()
   comment = comment.trim()
-
   const vehicle = await Vehicle.findOne({ _id: product_id })
     .populate({ path: 'user_owner', select: USER_BASE_INFO_FIELDS })
   
@@ -68,13 +67,16 @@ const buyAuto = async (req, res) => {
     })
   }
 
+  const currentUser = await User.findById(current_user_id)
+
   buy_requests.push({
     user_id: current_user_id,
     comment,
     approved: null,
     created_at: new Date(),
     updated_at: null,
-    price
+    price,
+    user_name: currentUser.user_name
   })
 
   await vehicle.save()

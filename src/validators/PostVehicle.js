@@ -5,6 +5,7 @@ const RegisterSchema = yup.object().shape({
   description: yup.string().required(),
   price: yup.number().required(),
   available_for_promote: yup.boolean().default(false),
+  year: yup.number(),
   promote_compensation: yup.number()
     .when('$available_for_promote', {
     is: true,
@@ -51,7 +52,8 @@ module.exports = async (req, res, next) => {
     wheel_drive,
     color,
     brand,
-    model
+    model,
+    year
   } = req.body
 
   try {
@@ -72,7 +74,8 @@ module.exports = async (req, res, next) => {
       wheel_drive,
       color,
       brand,
-      model
+      model,
+      year
     }, {
         abortEarly: false
     })
