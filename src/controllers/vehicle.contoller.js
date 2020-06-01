@@ -50,7 +50,7 @@ const postProduct = async (req, res) => {
     model,
     year
   } = req.body
-  const current_user_id = req.bodyData.current_user_id
+  const current_user_id = req.body_data.current_user_id
   
   const userOwner = await User.findById(current_user_id)
 
