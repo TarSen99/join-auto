@@ -46,12 +46,12 @@ const postProduct = async (req, res) => {
     transmittion,
     wheel_drive,
     color,
-    current_user_id,
     brand,
     model,
     year
   } = req.body
-
+  const current_user_id = req.bodyData.current_user_id
+  
   const userOwner = await User.findById(current_user_id)
 
   if (!userOwner) {

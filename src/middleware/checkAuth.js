@@ -23,5 +23,6 @@ module.exports = (req, res, next) => {
 
   req.token = authToken
   req.body.current_user_id = userId.id
+  req.body_data.current_user_id = userId.id
   next()
 }
