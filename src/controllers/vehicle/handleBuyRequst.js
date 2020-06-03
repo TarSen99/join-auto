@@ -55,14 +55,14 @@ const handleBuyRequst = async (req, res) => {
     })
   }
 
-  const declinedUserRequest = vehicle.buy_requests
-    .find(item => item.approved === false)
+  // const declinedUserRequest = vehicle.buy_requests
+  //   .find(item => item.approved === false)
 
-  if (declinedUserRequest && request_value === false) {
-    return res.status(403).json({
-      error: 'Buy request is already declined'
-    })
-  }
+  // if (declinedUserRequest && request_value === false) {
+  //   return res.status(403).json({
+  //     error: 'Buy request is already declined'
+  //   })
+  // }
 
   const requestToAccept = vehicle.buy_requests.find(item => {
     return item._id.toString() === request_id
