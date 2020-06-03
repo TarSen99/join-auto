@@ -3,6 +3,7 @@ const Schema = Mongoose.Schema
 
 const ApplicationSchema = new Schema({
   applicant_id: { type: Mongoose.SchemaTypes.ObjectId, ref: 'User'},
+  applicant_name: String,
   order_id: { type: Mongoose.SchemaTypes.ObjectId, ref: 'Order' },
   message: String,
   created_at: Date,

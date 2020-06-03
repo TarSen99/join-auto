@@ -11,7 +11,7 @@ const { USER_BASE_INFO_FIELDS } = require('@/constants.js')
  * @apiParam {String} id order id
  * @apiParam {String} message 
  * @apiParam {Number} price 
- * @apiParam {Date} date_complete_to
+ * @apiParam {Date} npm 
  * 
  * 
  */
@@ -64,6 +64,7 @@ const makeOrderApplication = async (req, res) => {
     created_at: new Date(),
     is_completed: false,
     applicant_id: current_user_id,
+    applicant_name: orderFromPersonAlreadyExists.user_name,
     order_id: id
   })
 
