@@ -58,7 +58,7 @@ const handleBuyRequst = async (req, res) => {
   const declinedUserRequest = vehicle.buy_requests
     .find(item => item.approved === false)
 
-  if (declinedUserRequest && !request_value) {
+  if (declinedUserRequest && request_value === false) {
     return res.status(403).json({
       error: 'Buy request is already declined'
     })

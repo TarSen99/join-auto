@@ -1,4 +1,5 @@
 const Order = require('@/models/Order.js')
+const User = require('@/models/User.js')
 const Application = require('@/models/Application.js')
 const Mongoose = require('mongoose')
 const { USER_BASE_INFO_FIELDS } = require('@/constants.js')
@@ -57,6 +58,8 @@ const makeOrderApplication = async (req, res) => {
       })
   }
 
+  const currUser = await User.findById(current_user_id)
+
   const application = await Application.create({
     message,
     price: price || order.price,
@@ -64,7 +67,7 @@ const makeOrderApplication = async (req, res) => {
     created_at: new Date(),
     is_completed: false,
     applicant_id: current_user_id,
-    applicant_name: orderFromPersonAlreadyExists.user_name,
+    applicant_name: currUser.user_name,
     order_id: id
   })
 
