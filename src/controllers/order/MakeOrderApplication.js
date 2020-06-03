@@ -68,7 +68,8 @@ const makeOrderApplication = async (req, res) => {
     is_completed: false,
     applicant_id: current_user_id,
     applicant_name: currUser.user_name,
-    order_id: id
+    order_id: id,
+    approved: null
   })
 
   order.applications.push(application)
