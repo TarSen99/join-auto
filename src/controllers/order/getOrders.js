@@ -29,6 +29,8 @@ module.exports = async (req, res) => {
   let {
     price_from = 0,
     price_to,
+    year_from = 0,
+    year_to,
     mileage,
     engine,
     transmittion,
@@ -43,7 +45,7 @@ module.exports = async (req, res) => {
     limit = 20
   } = req.query
 
-  const AVAILABLE_SORT_TYPES = ['price_from', 'price_to', 'mileage', 'created_at']
+  const AVAILABLE_SORT_TYPES = ['price_from', 'price_to', 'mileage', 'created_at', 'year_from', 'year_to']
   const DEFAULT_SORT_FIELD = 'created_at'
 
   const sortOptions = new SortWrapper()
@@ -55,16 +57,26 @@ module.exports = async (req, res) => {
 
   price_from = price_from ? +(price_from.trim()) : 0
   price_to = price_to ? +(price_to.trim()) : null
+
+  year_from = year_from ? +(year_from.trim()) : 0
+  year_to = year_to ? +(year_to.trim()) : null
+
   let newPriceTo;
+  let newYearTo;
 
   if (!price_to) {
     newPriceTo = MAX_PRICE_VALUE
   }
 
+  if (!year_to) {
+    newYearTo = new Date().getFullYear()
+  }
 
   const findModel = filterNulls({
-    price_from: price_from,
-    price_to: price_to,
+    price_from: { $gte: price_from },
+    price_to: { $lte: newPriceTo },
+    year_from: { $gte: year_from },
+    year_to: { $lte: newPriceTo },
     is_new,
     mileage,
     engine,
