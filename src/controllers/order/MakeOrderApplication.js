@@ -42,6 +42,7 @@ const makeOrderApplication = async (req, res) => {
   }
 
   const orderFromPersonAlreadyExists = await Order.aggregate([
+    { $match: { _id: Mongoose.Types.ObjectId(id) } },
     { $unwind: '$applications' },
     { $group: { _id: '$applications'}},
     { $lookup: { from: 'applications', localField: '_id', foreignField: '_id', as: 'app_id' } },
