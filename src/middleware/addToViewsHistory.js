@@ -12,6 +12,7 @@ module.exports = async (req, res, next) => {
   const { q = null } = req.query
   
   const vehicle = await Vehicle.findById(product_id)
+  .populate('user_owner')
 
   if (!vehicle) {
     return res.status(404).json({

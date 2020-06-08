@@ -116,7 +116,10 @@ const postProduct = async (req, res) => {
 const getProductDetails = async (req, res) => {
   const { vehicle } = req.body
 
-  return res.status(200).json(vehicle)
+  return res.status(200).json({
+    ...vehicle,
+    is_product_shared: false
+  })
 }
 
 
