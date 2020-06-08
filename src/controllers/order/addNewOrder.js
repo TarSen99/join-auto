@@ -60,7 +60,8 @@ const addNewOrder = async (req, res) => {
     model,
     year_from,
     year_to,
-    applications: []
+    applications: [],
+    created_at: new Date()
   })
 
   return res.status(201).json(order)

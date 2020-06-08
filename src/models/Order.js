@@ -22,6 +22,7 @@ const OrderSchema = new MongooseSchema({
   year_from: Number,
   year_to: Number,
   model: String,
+  created_at: Date,
   selected_application: { type: Mongoose.Types.ObjectId, ref: 'Application' },
   applications: [
     { type: Mongoose.Types.ObjectId, ref: 'Application' }
