@@ -114,11 +114,21 @@ const postProduct = async (req, res) => {
  */
 
 const getProductDetails = async (req, res) => {
-  const { vehicle } = req.body
+  const { vehicle, current_user_id } = req.body
+
+  const user = await User.findById(current_user_id)
+
+  const sharedProducts = user.shared_products || []
+
+  const productAlreadyExists = !!sharedProducts.find(productId => {
+    return vehicle._id.equals(productId)
+  })
+
+  console.log(222)
 
   return res.status(200).json({
     ...vehicle._doc,
-    is_product_shared: false
+    is_product_shared: productAlreadyExists
   })
 }
 
