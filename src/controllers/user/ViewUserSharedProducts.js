@@ -30,8 +30,17 @@ const ViewUserSharedProducts = async (req, res) => {
       $unwind: '$_id'
     },
     {
-      $replaceRoot: { newRoot: '$_id' }
-    }
+      $lookup: { from: 'vehicles', localField: '_id', foreignField: '_id', as: 'product' }
+    },
+    {
+      $group: { _id: '$product' }
+    },
+    {
+      $unwind: '$_id'
+    },
+    // {
+    //   $replaceRoot: { newRoot: '$_id' }
+    // }
   ]
 
   const productsCount = await User.aggregate([
