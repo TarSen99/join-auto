@@ -3,17 +3,27 @@ const User = require('@/models/User.js')
 const { USER_BASE_INFO_FIELDS } = require('@/constants.js')
 
 const handleCompensation = async (vehicle, requestToAccept, customer) => {
+  console.log(222)
+  console.log(vehicle)
+  console.log(customer)
+
   if (!vehicle.available_for_promote) {
     return
   }
 
-  const productIsPromoted = customer.views_history.find(product => product.product_id === vehicle._id)
+  console.log(3333)
+
+  const productIsPromoted = customer.views_history.find(product => product.product_id.equals(vehicle._id))
+
+  console.log(productIsPromoted)
 
   if (!productIsPromoted) {
     return
   }
 
   const IsSoldWithUser = await User.findOne({ referal_token: productIsPromoted.token })
+
+  console.log(IsSoldWithUser)
 
   if (!IsSoldWithUser) {
     return
