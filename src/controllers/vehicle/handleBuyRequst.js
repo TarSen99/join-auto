@@ -3,7 +3,7 @@ const User = require('@/models/User.js')
 const { USER_BASE_INFO_FIELDS } = require('@/constants.js')
 
 const handleCompensation = async (vehicle, requestToAccept, customer) => {
-  if (!vehicle.promote_compensation) {
+  if (!vehicle.available_for_promote) {
     return
   }
 
