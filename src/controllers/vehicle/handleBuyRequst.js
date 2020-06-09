@@ -15,7 +15,7 @@ const handleCompensation = async (vehicle, requestToAccept, customer) => {
 
   const IsSoldWithUser = await User.findOne({ referal_token: productIsPromoted.token })
 
-  if (!BoughtWithUser) {
+  if (!IsSoldWithUser) {
     return
   }
 
