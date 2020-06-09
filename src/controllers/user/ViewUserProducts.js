@@ -45,7 +45,7 @@ const ViewUserProducts = async (req, res) => {
         $group: { _id: Mongoose.Types.ObjectId(id), shared_products: { $push: '$$ROOT' } }
       },
       {
-        $lookup: { from: 'vehicles', localField: '_id', foreignField: 'user_owner_id', as: 'own_products' }
+        $lookup: { from: 'vehicles', localField: '_id', foreignField: 'user_owner', as: 'own_products' }
       },
       {
         $project: { items: { $concatArrays: ['$shared_products', '$own_products'] }, _id: 0 }
