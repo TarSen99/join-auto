@@ -35,7 +35,7 @@
     "multer-s3-transform": "^2.3.2",
     "qs": "^6.9.3",
     "randomstring": "^1.1.5",
-    "sharp": "^0.25.2",
+    "sharp": "^0.30.5",
     "yup": "^0.28.3"
   },
   "devDependencies": {
